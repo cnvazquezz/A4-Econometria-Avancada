@@ -1,49 +1,52 @@
-# Econometria Avançada A4
+# Econometria AvanÃ§ada A4
 
-# Noções Básicas - RSTUDIO
+# NoÃ§Ãµes BÃ¡sicas - RSTUDIO
 
 install.packages("urca") #instalando o pacote urca
 library("urca") #carregando o pacote urca
 install.packages("readxl") #instalando o pacote readxl
 library(readxl) #carregando o pacote readxl
-interdaay <- read_excel("C:/Econometria/interdaay.xls", col_types = c("date", "numeric", "numeric", "numeric")) #Sobe para o R a tabela de excel interdaay que está no computador
+interdaay <- read_excel("C:/Econometria/interdaay.xls", col_types = c("date", "numeric", "numeric", "numeric")) #Sobe para o R a tabela de excel interdaay que estÃ¡ no computador
 View(interdaay) #Mostra a tabela interdaay
 interdaay <- interdaay[,-1] #retira a primeira coluna da tabela interdaay
-colnames(interdaay)[2] <- "Variação" #altera o nome da segunda coluna
+colnames(interdaay)[2] <- "VariaÃ§Ã£o" #altera o nome da segunda coluna
 write.csv(interdaay,file = "Ibovespa.csv")
 
-# Contruindo SÉRIES Temporais RSTUDIO
+# Contruindo SÃ‰RIES Temporais RSTUDIO
 
-dados_diarios <- ts(interdaay, start = 2017-01-10, frequency = 365) #Constrói uma série temporal com os dados da tabela que se inicia em 2017-01-10 utilizando a frequencia diaria
-Variação <- ts(interdaay$Variação, start = 2017-01-10, frequency = 365) #Constrói uma Série temporal Sobre a Variação
-Ibovespa <- ts(interdaay$Ibovespa, start = 2017-01-10, frequency = 365) #Constrói uma série temporal sobre o Indice Ibovespa
-Quantidade <- ts(interdaay$Quantidade, start = 2017-01-10, frequency = 365) #Constrói uma Série temporal Sobre a Quantidade
-plot(dados_diarios, col= "blue", main="Dados do Indice Bovespa", xlab="Dias") #Constrói um grafico dos dados diarios
-plot(Variação, main="Percentual de Variação") #cria um grafico da Variação com titulo Percentual de Variação
+dados_diarios <- ts(interdaay, start = 2017-01-10, frequency = 365) #ConstrÃ³i uma sÃ©rie temporal com os dados da tabela que se inicia em 2017-01-10 utilizando a frequencia diaria
+VariaÃ§Ã£o <- ts(interdaay$VariaÃ§Ã£o, start = 2017-01-10, frequency = 365) #ConstrÃ³i uma SÃ©rie temporal Sobre a VariaÃ§Ã£o
+Ibovespa <- ts(interdaay$Ibovespa, start = 2017-01-10, frequency = 365) #ConstrÃ³i uma sÃ©rie temporal sobre o Indice Ibovespa
+Quantidade <- ts(interdaay$Quantidade, start = 2017-01-10, frequency = 365) #ConstrÃ³i uma SÃ©rie temporal Sobre a Quantidade
+plot(dados_diarios, col= "blue", main="Dados do Indice Bovespa", xlab="Dias") #ConstrÃ³i um grafico dos dados diarios
+plot(VariaÃ§Ã£o, main="Percentual de VariaÃ§Ã£o") #cria um grafico da VariaÃ§Ã£o com titulo Percentual de VariaÃ§Ã£o
 plot(Ibovespa, main="Indice do Dia",col="red") #cria um grfico do Ibovespa com titulo Indice do Dia e com cor vermelha
-plot(Quantidade, main="Indice do Dia", xlab="Dias", col="blue") #cria um gráfico da Quantidade com titulo Indice do dia com a descrição do eixo x como Dias e cor azul
+plot(Quantidade, main="Indice do Dia", xlab="Dias", col="blue") #cria um grÃ¡fico da Quantidade com titulo Indice do dia com a descriÃ§Ã£o do eixo x como Dias e cor azul
 
 # Realizando o Teste de Dick-Fuller Sobre os Dados
 
-TesteDF_Variação_none <- ur.df(Variação, "none",lags = 0) # Realzando o teste 1 DF-DickFuller sem drift e sem tendencia
-TesteDF_Variação_none #não contém o valor crítico do teste
-summary(TesteDF_Variação_none) #Mostra o resumo estatistico do teste que contém o valor crítico com 1% 5% e 10% de significancia
-TesteDF_Variação_drift <- ur.df(Variação, "drift", lags=0) #teste 2 com drift
-TesteDF_Variação_drift #não contém o valor crítico do teste
-summary(TesteDF_Variação_drift) #resumo estatistico do teste contém o valor crítico com 1% 5% e 10% de significancia
+TesteDF_VariaÃ§Ã£o_none <- ur.df(VariaÃ§Ã£o, "none",lags = 0) # Realzando o teste 1 DF-DickFuller sem drift e sem tendencia
+TesteDF_VariaÃ§Ã£o_none #nÃ£o contÃ©m o valor crÃ­tico do teste
+summary(TesteDF_VariaÃ§Ã£o_none) #Mostra o resumo estatistico do teste que contÃ©m o valor crÃ­tico com 1% 5% e 10% de significancia
+TesteDF_VariaÃ§Ã£o_drift <- ur.df(VariaÃ§Ã£o, "drift", lags=0) #teste 2 com drift
+TesteDF_VariaÃ§Ã£o_drift #nÃ£o contÃ©m o valor crÃ­tico do teste
+summary(TesteDF_VariaÃ§Ã£o_drift) #resumo estatistico do teste contÃ©m o valor crÃ­tico com 1% 5% e 10% de significancia
 
-TesteDF_Variação_trend <- ur.df(Variação, "trend", lags = 0) #teste 3 com tendência e com drift
-TesteDF_Variação_trend #não contém o valor crítico do teste
-summary(TesteDF_Variação_trend) #resumo estatistico do teste contém o valor crítico com 1% 5% e 10% de significancia
+TesteDF_VariaÃ§Ã£o_trend <- ur.df(VariaÃ§Ã£o, "trend", lags = 0) #teste 3 com tendÃªncia e com drift
+TesteDF_VariaÃ§Ã£o_trend #nÃ£o contÃ©m o valor crÃ­tico do teste
+summary(TesteDF_VariaÃ§Ã£o_trend) #resumo estatistico do teste contÃ©m o valor crÃ­tico com 1% 5% e 10% de significancia
 
-TesteDF_Ibovespa_none <- ur.df(Ibovespa, "none",lags = 0) #teste 1 DF-DickFuller sem drift e sem tendência
-TesteDF_Ibovespa_none #não contém o valor crítico do teste
-summary(TesteDF_Ibovespa_none) #resumo estatistico do teste contém o valor crítico com 1% 5% e 10% de significancia
+TesteDF_Ibovespa_none <- ur.df(Ibovespa, "none",lags = 0) #teste 1 DF-DickFuller sem drift e sem tendÃªncia
+TesteDF_Ibovespa_none #nÃ£o contÃ©m o valor crÃ­tico do teste
+summary(TesteDF_Ibovespa_none) #resumo estatistico do teste contÃ©m o valor crÃ­tico com 1% 5% e 10% de significancia
 
 TesteDF_Ibovespa_drift <- ur.df(Ibovespa, "drift", lags=0) #teste 2 com drift
-TesteDF_Ibovespa_drift #não contém o valor crítico do teste
-summary(TesteDF_Ibovespa_drift) #resumo estatistico do teste contémm o valor crítico com 1% 5% e 10% de significÃ¢ncia
+TesteDF_Ibovespa_drift #nÃ£o contÃ©m o valor crÃ­tico do teste
+summary(TesteDF_Ibovespa_drift) #resumo estatistico do teste contÃ©mm o valor crÃ­tico com 1% 5% e 10% de significÃƒÂ¢ncia
 
-TesteDF_Ibovespa_trend <- ur.df(Ibovespa, "trend", lags = 0) #teste 3 com tendênncia e com drift
-TesteDF_Ibovespa_trend #não contém o valor crítico do teste
-summary(TesteDF_Ibovespa_trend) #resumo estatísstico do teste contémm o valor crítico com 1% 5% e 10% de significancia
+TesteDF_Ibovespa_trend <- ur.df(Ibovespa, "trend", lags = 0) #teste 3 com tendÃªnncia e com drift
+TesteDF_Ibovespa_trend #nÃ£o contÃ©m o valor crÃ­tico do teste
+summary(TesteDF_Ibovespa_trend) #resumo estatÃ­sstico do teste contÃ©mm o valor crÃ­tico com 1% 5% e 10% de significancia
+
+#Salvar CNVAZQUEZ
+
